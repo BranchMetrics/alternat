@@ -174,6 +174,7 @@ variable "vpc_az_maps" {
     private_subnet_ids = list(string)
     public_subnet_id   = string
     route_table_ids    = list(string)
+    nat_gateway_id     = optional(string)
   }))
 }
 
