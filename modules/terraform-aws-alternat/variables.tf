@@ -174,6 +174,7 @@ variable "vpc_az_maps" {
     private_subnet_ids = list(string)
     public_subnet_id   = string
     route_table_ids    = list(string)
+    nat_gateway_id     = optional(string)
   }))
 }
 
@@ -234,4 +235,10 @@ variable "lambda_function_architectures" {
   description = "CPU architecture(s) to use for the lambda functions."
   type        = list(string)
   default     = ["x86_64"]
+}
+
+variable "nat_instance_launch_template_keypair" {
+  description = "key_pair name for NAT Instance launch template"
+  type        = string
+  default     = null
 }

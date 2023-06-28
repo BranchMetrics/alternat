@@ -147,6 +147,7 @@ resource "aws_lambda_function" "alternat_connectivity_tester" {
       ROUTE_TABLE_IDS_CSV = join(",", each.value.route_table_ids),
       PUBLIC_SUBNET_ID    = each.value.public_subnet_id
       CHECK_URLS          = join(",", var.connectivity_test_check_urls)
+      NAT_GATEWAY_ID      = each.value.nat_gateway_id
     }, var.lambda_environment_variables)
   }
 
