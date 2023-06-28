@@ -127,6 +127,14 @@ def check_connection(check_urls):
             logger.error("timeout error connecting to %s: %s", url, error)
 
     logger.warning("Failed connectivity tests! Replacing route")
+    msg = "NAT Instance connectivity test failed! Replacing route"
+    slack_channel = os.getenv("SLACK_CHANNEL")
+    slack_server_url = os.getenv("SLACK_SERVER_URL")
+
+    encoded_body = urllib.parse.urlencode({"message": msg, "to_channel": slack_channel})
+    encoded_body = encoded_body.encode('ascii')
+
+    urllib.request(slack_server_url, encoded_body)
 
     public_subnet_id = os.getenv("PUBLIC_SUBNET_ID")
     if not public_subnet_id:
