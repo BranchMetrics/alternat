@@ -175,6 +175,8 @@ variable "vpc_az_maps" {
     public_subnet_id   = string
     route_table_ids    = list(string)
     nat_gateway_id     = optional(string)
+    slack_server_url   = string
+    slack_channel      = string
   }))
 }
 

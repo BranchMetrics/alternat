@@ -148,6 +148,8 @@ resource "aws_lambda_function" "alternat_connectivity_tester" {
       PUBLIC_SUBNET_ID    = each.value.public_subnet_id
       CHECK_URLS          = join(",", var.connectivity_test_check_urls)
       NAT_GATEWAY_ID      = each.value.nat_gateway_id
+      SLACK_SERVER_URL    = each.value.slack_server_url
+      SLACK_CHANNEL       = each.value.slack_channel
     }, var.lambda_environment_variables)
   }
 
