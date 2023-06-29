@@ -116,6 +116,8 @@ def check_connection(check_urls):
     If both fail, replaces the route table to point at a standby NAT Gateway and
     return failure.
     """
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
     for url in check_urls:
         try:
             urllib.request.urlopen(url, timeout=REQUEST_TIMEOUT)
@@ -142,6 +144,18 @@ def check_connection(check_urls):
     for rtb in route_tables:
         replace_route(rtb, nat_gateway_id)
         logger.info("Route replacement succeeded")
+
+    slack_server_url = os.getenv("SLACK_SERVER_URL")
+    slack_channel = os.getenv("SLACK_CHANNEL")
+    if slack_server_url and slack_channel:
+        separator = ","
+        msg = "NAT Instance connectivity test failed! Route table route is now pointing to NAT Gateway. nat_gateway_id: " + nat_gateway_id + " route_table_ids: " + separator.join(route_tables)
+
+        encoded_body = {"message": msg, "to_channel": slack_channel}
+        encoded_body = json.dumps(encoded_body)
+        encoded_body = encoded_body.encode('ascii')
+
+        urllib.request.urlopen(slack_server_url, encoded_body)
     return False
 
 
